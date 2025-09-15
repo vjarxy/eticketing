@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="@yield('description', 'Sistem E-Ticketing Waterboom')">
-    <title>@yield('title', config('app.name', 'E-Ticketing Waterboom'))</title>
+    <meta name="description" content="{{ $description ?? 'Sistem E-Ticketing Waterboom' }}">
+    <title>{{ $title ?? 'E-Ticketing' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

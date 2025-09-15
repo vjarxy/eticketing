@@ -17,4 +17,9 @@ class Ticket extends Model
         'type',
         'status',
     ];
+
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
 }

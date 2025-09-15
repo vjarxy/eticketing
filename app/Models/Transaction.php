@@ -16,4 +16,19 @@ class Transaction extends Model
         'payment_method',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
+
+    public function eTickets()
+    {
+        return $this->hasMany(ETicket::class);
+    }
 }
