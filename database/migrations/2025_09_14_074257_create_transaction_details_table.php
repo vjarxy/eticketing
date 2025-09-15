@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
             $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
             $table->integer('quantity');
-            $table->integer('subtotal');
+            $table->integer('price');
+            $table->integer('total');
+            $table->integer('subtotal')->nullable();
             $table->timestamps();
         });
     }

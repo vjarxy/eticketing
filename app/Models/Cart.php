@@ -5,27 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TransactionDetail extends Model
+class Cart extends Model
 {
-    /** @use HasFactory<\Database\Factories\TransactionDetailFactory> */
+    /** @use HasFactory<\Database\Factories\CartFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'transaction_id',
+        'user_id',
         'ticket_id',
         'quantity',
         'price',
-        'total',
-        'subtotal',
     ];
 
-    public function transaction()
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
+
+    public function user()
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(User::class);
     }
 
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->price * $this->quantity;
     }
 }
