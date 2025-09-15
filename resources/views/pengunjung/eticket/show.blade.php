@@ -1,19 +1,4 @@
 <x-app-layout>
-    <x-navbar />
-
-    <!-- Header -->
-    <section class="bg-gradient-to-r from-blue-600 to-purple-600 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold text-white mb-4">
-                <i class="fas fa-ticket-alt mr-3"></i>
-                E-Tiket Digital
-            </h1>
-            <p class="text-xl text-blue-100">
-                Tunjukkan tiket ini saat masuk waterboom
-            </p>
-        </div>
-    </section>
-
     <!-- E-Ticket Content -->
     <section class="py-20 bg-gray-50 min-h-screen">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,50 +115,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Important Information -->
-                    <div class="mt-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-                        <h4 class="font-semibold text-yellow-900 mb-3">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            Informasi Penting:
-                        </h4>
-                        <div class="grid md:grid-cols-2 gap-4 text-sm text-yellow-800">
-                            <ul class="space-y-1">
-                                <li>• Tiket berlaku untuk 1 orang</li>
-                                <li>• Tidak dapat direfund setelah digunakan</li>
-                                <li>• Tunjukkan QR code kepada petugas</li>
-                                <li>• Simpan e-tiket hingga selesai berkunjung</li>
-                            </ul>
-                            <ul class="space-y-1">
-                                <li>• Jam operasional: 08.00 - 17.00 WIB</li>
-                                <li>• Bawa identitas diri yang valid</li>
-                                <li>• Patuhi peraturan dan tata tertib</li>
-                                <li>• Hubungi CS jika ada kendala</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Facilities Info -->
-                    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6">
-                        <h4 class="font-semibold text-blue-900 mb-3">
-                            <i class="fas fa-swimming-pool mr-2"></i>
-                            Fasilitas yang Termasuk:
-                        </h4>
-                        <div class="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
-                            <ul class="space-y-1">
-                                <li>• Akses semua wahana air</li>
-                                <li>• Fasilitas locker</li>
-                                <li>• Area parkir gratis</li>
-                                <li>• Area food court</li>
-                            </ul>
-                            <ul class="space-y-1">
-                                <li>• Mushola dan toilet</li>
-                                <li>• Area bilas</li>
-                                <li>• Gazebo dan tempat istirahat</li>
-                                <li>• Medical center</li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Ticket Footer -->
@@ -196,92 +137,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="window.print()"
-                    class="flex-1 sm:flex-none bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-print mr-2"></i>
-                    Cetak E-Tiket
-                </button>
-
-                <button onclick="downloadTicket()"
-                    class="flex-1 sm:flex-none bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-download mr-2"></i>
-                    Download PDF
-                </button>
-
-                <a href="{{ route('tickets.index') }}"
-                    class="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-4 rounded-xl font-semibold transition-all duration-200 text-center">
-                    <i class="fas fa-arrow-left mr-2"></i>
-                    Kembali
-                </a>
-            </div>
-
-            <!-- Share QR Code -->
-            <div class="mt-12 text-center">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Bagikan E-Tiket</h3>
-                <div class="flex justify-center space-x-4">
-                    <button onclick="shareWhatsApp()"
-                        class="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-whatsapp"></i>
-                    </button>
-                    <button onclick="shareEmail()"
-                        class="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fas fa-envelope"></i>
-                    </button>
-                    <button onclick="copyLink()"
-                        class="w-12 h-12 bg-gray-500 hover:bg-gray-600 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fas fa-link"></i>
-                    </button>
-                </div>
-            </div>
         </div>
     </section>
-
-    <script>
-        function downloadTicket() {
-            // This would integrate with a PDF generation service
-            alert('Fitur download PDF akan segera tersedia!');
-        }
-
-        function shareWhatsApp() {
-            const text = encodeURIComponent(
-                `Saya sudah membeli e-tiket Grand Waterboom Maros! 🎫🌊\n\nID Tiket: #{{ str_pad($eTicket->id, 6, '0', STR_PAD_LEFT) }}\nAyo main air bareng! 💦`
-            );
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        }
-
-        function shareEmail() {
-            const subject = encodeURIComponent('E-Tiket Grand Waterboom Maros');
-            const body = encodeURIComponent(
-                `Halo!\n\nSaya sudah membeli e-tiket Grand Waterboom Maros.\n\nID Tiket: #{{ str_pad($eTicket->id, 6, '0', STR_PAD_LEFT) }}\nLink: ${window.location.href}\n\nAyo main air bareng!`
-            );
-            window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
-        }
-
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href).then(function() {
-                alert('Link e-tiket berhasil disalin!');
-            });
-        }
-    </script>
-
-    <!-- Print Styles -->
-    <style media="print">
-        .no-print {
-            display: none !important;
-        }
-
-        body {
-            background: white !important;
-        }
-
-        .bg-gradient-to-r {
-            background: #3B82F6 !important;
-            color: white !important;
-        }
-    </style>
-
-    <x-footer class="no-print" />
 </x-app-layout>

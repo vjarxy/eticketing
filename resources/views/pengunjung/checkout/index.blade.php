@@ -1,19 +1,4 @@
 <x-app-layout>
-    <x-navbar />
-
-    <!-- Header -->
-    <section class="bg-gradient-to-r from-green-600 to-teal-600 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold text-white mb-4">
-                <i class="fas fa-credit-card mr-3"></i>
-                Checkout
-            </h1>
-            <p class="text-xl text-green-100">
-                Selesaikan pembelian tiket Anda
-            </p>
-        </div>
-    </section>
-
     <!-- Checkout Content -->
     <section class="py-20 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -322,6 +307,4 @@
             submitBtn.disabled = true;
         });
     </script>
-
-    <x-footer />
 </x-app-layout>

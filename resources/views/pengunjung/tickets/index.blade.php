@@ -1,15 +1,46 @@
 <x-app-layout>
-    <x-navbar />
-
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">
-                Pilih Tiket Terbaik
+    <section id="tiket"
+        class="relative min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 pt-16 overflow-hidden">
+        <!-- Background Animation -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/90 via-blue-700/90 to-cyan-600/90"></div>
+        <div class="absolute inset-0">
+            <div class="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-white/5 rounded-full animate-pulse"></div>
+            <div class="absolute top-1/2 left-1/4 w-48 h-48 bg-cyan-300/10 rounded-full animate-bounce"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Pilih Paket
+                <span class="bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
+                    Tiket Terbaik
+                </span>
             </h1>
-            <p class="text-xl text-blue-100 mb-8">
-                Nikmati berbagai wahana seru dengan harga terbaik
+            <p class="text-xl sm:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Nikmati berbagai wahana seru dengan harga terbaik. Dari tiket reguler hingga paket premium,
+                temukan yang sesuai dengan kebutuhan Anda.
             </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div class="flex items-center text-white/90">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Pembayaran Aman</span>
+                </div>
+                <div class="flex items-center text-white/90">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>E-Ticket Instant</span>
+                </div>
+                <div class="flex items-center text-white/90">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Refund Guarantee</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -114,6 +145,4 @@
             </div>
         </div>
     </section>
-
-    <x-footer />
 </x-app-layout>

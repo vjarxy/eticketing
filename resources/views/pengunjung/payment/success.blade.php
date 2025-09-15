@@ -1,6 +1,4 @@
 <x-app-layout>
-    <x-navbar />
-
     <!-- Success Header -->
     <section class="bg-gradient-to-r from-green-500 to-emerald-500 py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -171,31 +169,6 @@
                     Kembali ke Beranda
                 </a>
             </div>
-
-            <!-- Share Section -->
-            <div class="mt-12 text-center">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Bagikan Pengalaman Anda!</h3>
-                <div class="flex justify-center space-x-4">
-                    <a href="#"
-                        class="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#"
-                        class="w-12 h-12 bg-blue-400 hover:bg-blue-500 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#"
-                        class="w-12 h-12 bg-pink-500 hover:bg-pink-600 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#"
-                        class="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>
         </div>
     </section>
-
-    <x-footer />
 </x-app-layout>

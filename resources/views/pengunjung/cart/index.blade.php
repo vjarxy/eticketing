@@ -1,19 +1,4 @@
 <x-app-layout>
-    <x-navbar />
-
-    <!-- Header -->
-    <section class="bg-gradient-to-r from-blue-600 to-cyan-600 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold text-white mb-4">
-                <i class="fas fa-shopping-cart mr-3"></i>
-                Keranjang Belanja
-            </h1>
-            <p class="text-xl text-blue-100">
-                Review dan kelola tiket pilihan Anda
-            </p>
-        </div>
-    </section>
-
     <!-- Cart Content -->
     <section class="py-20 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,6 +225,4 @@
             }
         }
     </script>
-
-    <x-footer />
 </x-app-layout>
