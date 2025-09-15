@@ -5,25 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TransactionDetail extends Model
+class ETicket extends Model
 {
-    /** @use HasFactory<\Database\Factories\TransactionDetailFactory> */
+    /** @use HasFactory<\Database\Factories\ETicketFactory> */
     use HasFactory;
 
     protected $fillable = [
         'transaction_id',
-        'ticket_id',
-        'quantity',
-        'subtotal',
+        'qr_code',
+        'status'
     ];
 
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
-    }
-
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
     }
 }

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_details', function (Blueprint $table) {
+        Schema::create('e_tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
-            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
-            $table->integer('quantity');
-            $table->integer('subtotal');
+            $table->string('qr_code');
+            $table->enum('status', ['valid', 'used', 'expired'])->default('valid');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_details');
+        Schema::dropIfExists('e_tickets');
     }
 };
