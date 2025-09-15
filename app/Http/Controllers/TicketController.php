@@ -22,9 +22,11 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_tiket' => 'required|string',
-            'harga' => 'required|numeric',
-            'jenis' => 'required|string',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'type' => 'required|string',
+            'description' => 'nullable|string',
+            'status' => 'required|string',
         ]);
 
         Ticket::create($request->all());
@@ -39,9 +41,11 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         $request->validate([
-            'nama_tiket' => 'required|string',
-            'harga' => 'required|numeric',
-            'jenis' => 'required|string',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'type' => 'required|string',
+            'description' => 'nullable|string',
+            'status' => 'required|string',
         ]);
 
         $ticket->update($request->all());

@@ -21,12 +21,22 @@
                         class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Kontak</a>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <a href="/login"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Masuk</a>
-                    <a href="/register"
-                        class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">Daftar</a>
-                </div>
+                @guest
+                    <div class="flex items-center space-x-4">
+                        <a href="/auth/login"
+                            class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Masuk</a>
+                        <a href="/auth/register"
+                            class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">Daftar</a>
+                    </div>
+                @else
+                    <div class="flex items-center space-x-4">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Keluar</button>
+                        </form>
+                    </div>
+                @endguest
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">

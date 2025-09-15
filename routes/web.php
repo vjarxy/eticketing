@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\TicketController;
@@ -16,13 +17,14 @@ Route::get('/', function () {
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate']);
-    Route::get('/register', [AuthController::class, 'register']);
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/register', [AuthController::class, 'store']);
     Route::post('/luri: ogout', [AuthController::class, 'logout'])->name('logout');
 });
 
 // Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('admin/dashboard', [AdminController::class, 'index']);
     Route::resource('admin/users', UserController::class);
     Route::resource('admin/tickets', TicketController::class);
 });

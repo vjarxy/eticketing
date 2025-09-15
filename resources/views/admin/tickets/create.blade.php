@@ -1,123 +1,136 @@
-<x-layouts.app>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center mb-4">
-                    <a href="{{ route('tickets.index') }}" class="btn btn-outline-secondary me-3">
-                        <i class="bi bi-arrow-left"></i>
-                    </a>
-                    <div>
-                        <h2><i class="bi bi-plus-lg me-2"></i>Tambah Ticket</h2>
-                        <p class="text-muted mb-0">Buat tiket acara baru</p>
+<!-- Converted from Bootstrap to Tailwind CSS and updated to use admin layout -->
+<x-admin-layout>
+    <x-slot name="title">Tambah Ticket</x-slot>
+
+    <div class="max-w-2xl mx-auto">
+        <div class="flex items-center mb-6">
+            <a href="{{ route('tickets.index') }}" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-300 mr-4">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900"><i class="fas fa-plus mr-2"></i>Tambah Ticket</h2>
+                <p class="text-gray-600">Buat tiket acara baru</p>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+                @if($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
-                </div>
+                @endif
 
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <i class="bi bi-exclamation-triangle me-2"></i>
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                <form method="POST" action="{{ route('tickets.store') }}">
+                    @csrf
 
-                        <form method="POST" action="{{ route('tickets.store') }}">
-                            @csrf
-
-                            <div class="mb-3">
-                                <label for="name" class="form-label">
-                                    <i class="bi bi-ticket-perforated me-1"></i>Nama Ticket
-                                </label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" value="{{ old('name') }}" required>
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="price" class="form-label">
-                                        <i class="bi bi-currency-dollar me-1"></i>Harga
-                                    </label>
-                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        id="price" name="price" value="{{ old('price') }}" min="0"
-                                        step="1000" required>
-                                    @error('price')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="type" class="form-label">
-                                        <i class="bi bi-tag me-1"></i>Type
-                                    </label>
-                                    <select class="form-select @error('type') is-invalid @enderror" id="type"
-                                        name="type" required>
-                                        <option value="">Pilih Type</option>
-                                        <option value="regular" {{ old('type') == 'regular' ? 'selected' : '' }}>
-                                            Regular
-                                        </option>
-                                        <option value="vip" {{ old('type') == 'vip' ? 'selected' : '' }}>
-                                            VIP
-                                        </option>
-                                        <option value="premium" {{ old('type') == 'premium' ? 'selected' : '' }}>
-                                            Premium
-                                        </option>
-                                    </select>
-                                    @error('type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">
-                                    <i class="bi bi-text-paragraph me-1"></i>Deskripsi
-                                </label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
-                                    rows="4">{{ old('description') }}</textarea>
-                                @error('description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="status" class="form-label">
-                                    <i class="bi bi-toggle-on me-1"></i>Status
-                                </label>
-                                <select class="form-select @error('status') is-invalid @enderror" id="status"
-                                    name="status" required>
-                                    <option value="">Pilih Status</option>
-                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>
-                                        Active
-                                    </option>
-                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
-                                        Inactive
-                                    </option>
-                                </select>
-                                @error('status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-check-lg me-1"></i>Simpan
-                                </button>
-                                <a href="{{ route('tickets.index') }}" class="btn btn-secondary">
-                                    <i class="bi bi-x-lg me-1"></i>Batal
-                                </a>
-                            </div>
-                        </form>
+                    <div class="mb-6">
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-ticket-alt mr-1"></i>Nama Ticket
+                        </label>
+                        <input type="text"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('name') border-red-500 @enderror"
+                               id="name"
+                               name="name"
+                               value="{{ old('name') }}"
+                               required>
+                        @error('name')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-                </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-dollar-sign mr-1"></i>Harga
+                            </label>
+                            <input type="number"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('price') border-red-500 @enderror"
+                                   id="price"
+                                   name="price"
+                                   value="{{ old('price') }}"
+                                   min="0"
+                                   step="1000"
+                                   required>
+                            @error('price')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-tag mr-1"></i>Type
+                            </label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('type') border-red-500 @enderror"
+                                    id="type"
+                                    name="type"
+                                    required>
+                                <option value="">Pilih Type</option>
+                                <option value="regular" {{ old('type') == 'regular' ? 'selected' : '' }}>
+                                    Regular
+                                </option>
+                                <option value="promo" {{ old('type') == 'promo' ? 'selected' : '' }}>
+                                    Promo
+                                </option>
+                                <option value="paket" {{ old('type') == 'paket' ? 'selected' : '' }}>
+                                    Paket
+                                </option>
+                            </select>
+                            @error('type')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-align-left mr-1"></i>Deskripsi
+                        </label>
+                        <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('description') border-red-500 @enderror"
+                                  id="description"
+                                  name="description"
+                                  rows="4">{{ old('description') }}</textarea>
+                        @error('description')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-toggle-on mr-1"></i>Status
+                        </label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('status') border-red-500 @enderror"
+                                id="status"
+                                name="status"
+                                required>
+                            <option value="">Pilih Status</option>
+                            <option value="aktif" {{ old('status') == 'active' ? 'selected' : '' }}>
+                                Active
+                            </option>
+                            <option value="non-aktif" {{ old('status') == 'inactive' ? 'selected' : '' }}>
+                                Inactive
+                            </option>
+                        </select>
+                        @error('status')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                            <i class="fas fa-check mr-1"></i>Simpan
+                        </button>
+                        <a href="{{ route('tickets.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200">
+                            <i class="fas fa-times mr-1"></i>Batal
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-</x-layouts.app>
+</x-admin-layout>
