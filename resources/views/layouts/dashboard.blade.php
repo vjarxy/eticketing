@@ -29,12 +29,50 @@
                             class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">Daftar</a>
                     </div>
                 @else
-                    <div class="flex items-center space-x-4">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Keluar</button>
-                        </form>
+                    <div class="relative">
+                        <button id="profileDropdown"
+                            class="flex items-center space-x-3 text-gray-600 hover:text-gray-800 focus:outline-none">
+                            <span class="text-sm font-medium">{{ auth()->user()->name }}</span>
+                            <div
+                                class="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white text-sm"></i>
+                            </div>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div id="profileDropdownMenu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                            <div class="py-2">
+                                <div class="px-4 py-2 border-b border-gray-100">
+                                    <p class="text-sm font-medium text-gray-800">{{ auth()->user()->name }}</p>
+                                    <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
+                                </div>
+
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-user-circle mr-3 text-gray-400"></i>
+                                    Profile
+                                </a>
+
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-cog mr-3 text-gray-400"></i>
+                                    Settings
+                                </a>
+
+                                <div class="border-t border-gray-100 my-1"></div>
+
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                        <i class="fas fa-sign-out-alt mr-3"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 @endguest
 
@@ -133,7 +171,8 @@
                                             d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                     </svg>
                                     <h4 class="text-lg font-semibold text-gray-800 mb-2">Mobile Friendly</h4>
-                                    <p class="text-sm text-gray-600 text-center">Responsif di semua perangkat mobile</p>
+                                    <p class="text-sm text-gray-600 text-center">Responsif di semua perangkat mobile
+                                    </p>
                                 </div>
                             </div>
 
@@ -509,4 +548,31 @@
             </div>
         </div>
     </footer>
+
+    <!-- Added JavaScript for dropdown functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownButton = document.getElementById('profileDropdown');
+            const dropdownMenu = document.getElementById('profileDropdownMenu');
+
+            dropdownButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+
+            // Close dropdown when pressing Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </x-app-layout>
