@@ -11,10 +11,6 @@
                             <h1 class="text-2xl font-bold">Grand Waterboom Maros</h1>
                             <p class="text-blue-100">E-Tiket Digital</p>
                         </div>
-                        <div class="text-right">
-                            <div class="text-sm text-blue-100">ID Tiket</div>
-                            <div class="text-xl font-bold">#{{ str_pad($eTicket->id, 6, '0', STR_PAD_LEFT) }}</div>
-                        </div>
                     </div>
                 </div>
 
@@ -32,16 +28,17 @@
                             </p>
 
                             <!-- Status Badge -->
+
                             <div class="mt-4">
                                 <span
                                     class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
-                                    {{ $eTicket->status === 'active' ? 'bg-green-100 text-green-800' : ($eTicket->status === 'used' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800') }}">
-                                    @if ($eTicket->status === 'active')
-                                        <i class="fas fa-check-circle mr-1"></i>Aktif
+                                    {{ $eTicket->status === 'valid' ? 'bg-green-100 text-green-800' : ($eTicket->status === 'used' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800') }}">
+                                    @if ($eTicket->status === 'valid')
+                                    <i class="fas fa-check-circle mr-1"></i>Aktif
                                     @elseif($eTicket->status === 'used')
-                                        <i class="fas fa-times-circle mr-1"></i>Sudah Digunakan
+                                    <i class="fas fa-times-circle mr-1"></i>Sudah Digunakan
                                     @else
-                                        <i class="fas fa-ban mr-1"></i>Tidak Aktif
+                                    <i class="fas fa-ban mr-1"></i>Tidak Aktif
                                     @endif
                                 </span>
                             </div>
@@ -58,11 +55,11 @@
                                             class="font-semibold text-gray-900">#{{ str_pad($eTicket->transaction->id, 6, '0', STR_PAD_LEFT) }}</span>
                                     </div>
                                     @if (isset($ticketDetails['verification_code']))
-                                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span class="text-gray-600">Kode Verifikasi</span>
-                                            <span
-                                                class="font-semibold text-purple-600 font-mono">{{ $ticketDetails['verification_code'] }}</span>
-                                        </div>
+                                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                        <span class="text-gray-600">Kode Verifikasi</span>
+                                        <span
+                                            class="font-semibold text-purple-600 font-mono">{{ $ticketDetails['verification_code'] ?? 'N/A' }}</span>
+                                    </div>
                                     @endif
                                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
                                         <span class="text-gray-600">Pemegang Tiket</span>
@@ -75,11 +72,11 @@
                                             class="font-semibold text-gray-900">{{ $eTicket->transaction->created_at->format('d/m/Y H:i') }}</span>
                                     </div>
                                     @if (isset($ticketDetails['ticket_name']))
-                                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span class="text-gray-600">Jenis Tiket</span>
-                                            <span
-                                                class="font-semibold text-blue-600">{{ $ticketDetails['ticket_name'] }}</span>
-                                        </div>
+                                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                        <span class="text-gray-600">Jenis Tiket</span>
+                                        <span
+                                            class="font-semibold text-blue-600">{{ $ticketDetails['ticket_name'] }}</span>
+                                    </div>
                                     @endif
                                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
                                         <span class="text-gray-600">Total Pembayaran</span>
@@ -94,22 +91,22 @@
                                 <h4 class="font-semibold text-gray-900 mb-3">Paket Tiket:</h4>
                                 <div class="space-y-2">
                                     @foreach ($eTicket->transaction->transactionDetails as $detail)
-                                        <div class="bg-gray-50 rounded-xl p-4">
-                                            <div class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-medium text-gray-900">{{ $detail->ticket->name }}
-                                                    </div>
-                                                    <div class="text-sm text-gray-600">{{ $detail->quantity }}x tiket
-                                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-medium text-gray-900">{{ $detail->ticket->name }}
                                                 </div>
-                                                <div class="text-sm">
-                                                    <span
-                                                        class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                                                        {{ ucfirst($detail->ticket->type) }}
-                                                    </span>
+                                                <div class="text-sm text-gray-600">{{ $detail->quantity }}x tiket
                                                 </div>
                                             </div>
+                                            <div class="text-sm">
+                                                <span
+                                                    class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                                                    {{ ucfirst($detail->ticket->type) }}
+                                                </span>
+                                            </div>
                                         </div>
+                                    </div>
                                     @endforeach
                                 </div>
                             </div>

@@ -14,6 +14,9 @@
                 @auth
                     <a href="{{ route('tickets.index') }}"
                         class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Beli Tiket</a>
+                    <a href="{{ route('user.etickets.index') }}"
+                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">E-Tiket
+                        Saya</a>
                 @else
                     <a href="#features"
                         class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Fitur</a>
@@ -72,6 +75,10 @@
                             <a href="{{ route('cart.index') }}"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                                 <i class="fas fa-shopping-cart mr-2"></i>Keranjang
+                            </a>
+                            <a href="{{ route('user.etickets.index') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-qrcode mr-2"></i>E-Tiket Saya
                             </a>
                             <div class="border-t border-gray-100 my-1"></div>
                             <form action="{{ route('logout') }}" method="POST">

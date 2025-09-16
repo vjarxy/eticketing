@@ -8,6 +8,7 @@ use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserETicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
 
     // E-Ticket
     Route::get('/eticket/{eTicket}', [PaymentController::class, 'showETicket'])->name('eticket.show');
+
+    // User E-Tickets Dashboard
+    Route::get('/my-tickets', [UserETicketController::class, 'index'])->name('user.etickets.index');
+    Route::get('/my-tickets/{eTicket}', [UserETicketController::class, 'show'])->name('user.etickets.show');
+    Route::get('/my-tickets/{eTicket}/download', [UserETicketController::class, 'download'])->name('user.etickets.download');
 });
 
 // Auth

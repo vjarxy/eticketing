@@ -124,15 +124,21 @@
                                         <div class="flex items-center mt-2">
                                             <span
                                                 class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                                                {{ $eTicket->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                                {{ ucfirst($eTicket->status) }}
+                                                {{ $eTicket->status === 'valid' ? 'bg-green-100 text-green-800' : ($eTicket->status === 'used' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800') }}">
+                                                @if ($eTicket->status === 'valid')
+                                                    <i class="fas fa-check-circle mr-1"></i>Valid
+                                                @elseif($eTicket->status === 'used')
+                                                    <i class="fas fa-times-circle mr-1"></i>Sudah Digunakan
+                                                @else
+                                                    <i class="fas fa-ban mr-1"></i>Kadaluarsa
+                                                @endif
                                             </span>
                                         </div>
                                     </div>
-                                    <a href="{{ route('eticket.show', $eTicket) }}"
+                                    <a href="{{ route('user.etickets.show', $eTicket) }}"
                                         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                                         <i class="fas fa-eye mr-1"></i>
-                                        Lihat
+                                        Lihat Detail
                                     </a>
                                 </div>
                             </div>
@@ -157,6 +163,12 @@
 
             <!-- Action Buttons -->
             <div class="mt-12 text-center space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+                <a href="{{ route('user.etickets.index') }}"
+                    class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-qrcode mr-2"></i>
+                    Lihat Semua E-Tiket Saya
+                </a>
+
                 <a href="{{ route('tickets.index') }}"
                     class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl">
                     <i class="fas fa-ticket-alt mr-2"></i>

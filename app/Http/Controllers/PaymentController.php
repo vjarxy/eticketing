@@ -6,10 +6,12 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\ETicket;
 use App\Models\PaymentMethod;
+use App\Mail\ETicketMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PaymentController extends Controller
@@ -99,11 +101,6 @@ class PaymentController extends Controller
                 ->with('success', 'Pembayaran berhasil diproses');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Payment processing failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-                'user_id' => Auth::id()
-            ]);
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage());
         }
     }
@@ -137,6 +134,6 @@ class PaymentController extends Controller
         // Get ticket details
         $ticketDetails = json_decode($eTicket->qr_code, true);
 
-        return view('pengunjung.eticket.show', compact('eTicket', 'qrCode', 'ticketDetails'));
+        return view('pengunjung.etickets.show', compact('eTicket', 'qrCode', 'ticketDetails'));
     }
 }
