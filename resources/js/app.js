@@ -294,4 +294,167 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initialize carousel
     initCarousel();
+
+    // Mobile menu functionality for guest layout
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenuElement = document.getElementById("mobile-menu");
+
+    if (mobileMenuBtn && mobileMenuElement) {
+        mobileMenuBtn.addEventListener("click", function () {
+            mobileMenuElement.classList.toggle("hidden");
+
+            // Update icon
+            const icon = this.querySelector("svg");
+            if (mobileMenuElement.classList.contains("hidden")) {
+                icon.innerHTML =
+                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
+            } else {
+                icon.innerHTML =
+                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+            }
+        });
+    }
 });
+
+// Toast notification function
+function showToast(message, type = "info") {
+    const toastContainer = document.getElementById("toast-container");
+    if (!toastContainer) return;
+
+    const toast = document.createElement("div");
+    toast.className = `toast flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg transition-all duration-300 transform translate-x-full opacity-0`;
+
+    let iconColor = "text-blue-500";
+    let icon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`;
+
+    if (type === "success") {
+        iconColor = "text-green-500";
+        icon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`;
+    } else if (type === "error") {
+        iconColor = "text-red-500";
+        icon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`;
+    } else if (type === "warning") {
+        iconColor = "text-yellow-500";
+        icon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>`;
+    }
+
+    toast.innerHTML = `
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 ${iconColor} bg-opacity-20 rounded-lg">
+            ${icon}
+        </div>
+        <div class="ml-3 text-sm font-medium text-gray-900">${message}</div>
+        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8" onclick="this.parentElement.remove()">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    // Animate in
+    setTimeout(() => {
+        toast.classList.remove("translate-x-full", "opacity-0");
+        toast.classList.add("translate-x-0", "opacity-100");
+    }, 100);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        toast.classList.add("translate-x-full", "opacity-0");
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 300);
+    }, 5000);
+}
+
+// Loading state helper
+function setLoading(element, isLoading = true) {
+    if (isLoading) {
+        element.classList.add("loading");
+        element.disabled = true;
+        const originalText = element.textContent;
+        element.dataset.originalText = originalText;
+        element.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Loading...
+        `;
+    } else {
+        element.classList.remove("loading");
+        element.disabled = false;
+        element.textContent = element.dataset.originalText || "Submit";
+    }
+}
+
+// Utility function for form validation
+function validateForm(formElement) {
+    const inputs = formElement.querySelectorAll(
+        "input[required], select[required], textarea[required]"
+    );
+    let isValid = true;
+
+    inputs.forEach((input) => {
+        const errorElement =
+            input.parentElement.querySelector(".error-message");
+
+        if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add("border-red-500");
+            if (errorElement) {
+                errorElement.textContent = "Field ini wajib diisi";
+                errorElement.classList.remove("hidden");
+            }
+        } else {
+            input.classList.remove("border-red-500");
+            if (errorElement) {
+                errorElement.classList.add("hidden");
+            }
+        }
+
+        // Email validation
+        if (input.type === "email" && input.value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.value)) {
+                isValid = false;
+                input.classList.add("border-red-500");
+                if (errorElement) {
+                    errorElement.textContent = "Format email tidak valid";
+                    errorElement.classList.remove("hidden");
+                }
+            }
+        }
+
+        // Phone validation
+        if (input.type === "tel" && input.value) {
+            const phoneRegex = /^(\+62|62|0)8[1-9][0-9]{6,9}$/;
+            if (!phoneRegex.test(input.value)) {
+                isValid = false;
+                input.classList.add("border-red-500");
+                if (errorElement) {
+                    errorElement.textContent =
+                        "Format nomor telepon tidak valid";
+                    errorElement.classList.remove("hidden");
+                }
+            }
+        }
+    });
+
+    return isValid;
+}
+
+// Make functions globally available
+window.showToast = showToast;
+window.setLoading = setLoading;
+window.validateForm = validateForm;

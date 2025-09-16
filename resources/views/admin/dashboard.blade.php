@@ -24,7 +24,8 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600">Total Pendapatan</p>
-                        <p class="text-2xl font-semibold text-gray-900">Rp {{ number_format($totalPendapatan ?? 0, 0, ',', '.') }}</p>
+                        <p class="text-2xl font-semibold text-gray-900">Rp
+                            {{ number_format($totalPendapatan ?? 0, 0, ',', '.') }}</p>
                     </div>
                 </div>
             </div>
@@ -94,11 +95,20 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pengunjung</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Pengunjung</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Tiket</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Jumlah</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Total</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Tanggal</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -114,8 +124,9 @@
                                     Rp {{ number_format($transaction->total, 0, ',', '.') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                        {{ $transaction->status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                        {{ $transaction->status === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ ucfirst($transaction->status) }}
                                     </span>
                                 </td>
@@ -141,11 +152,13 @@
             <div class="bg-white rounded-lg shadow p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
                 <div class="space-y-3">
-                    <a href="{{ route('users.create') }}" class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                    <a href="{{ route('users.create') }}"
+                        class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
                         <i class="fas fa-user-plus text-blue-600 mr-3"></i>
                         <span class="text-blue-700 font-medium">Tambah User Baru</span>
                     </a>
-                    <a href="{{ route('tickets.create') }}" class="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                    <a href="{{ route('admin.tickets.create') }}"
+                        class="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
                         <i class="fas fa-plus-circle text-green-600 mr-3"></i>
                         <span class="text-green-700 font-medium">Tambah Tiket Baru</span>
                     </a>
