@@ -64,8 +64,8 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('type') border-red-500 @enderror"
                                 id="type" name="type" required>
                                 <option value="">Pilih Type</option>
-                                <option value="regular" {{ old('type', $ticket->type) == 'regular' ? 'selected' : '' }}>
-                                    Regular
+                                <option value="reguler" {{ old('type', $ticket->type) == 'reguler' ? 'selected' : '' }}>
+                                    Reguler
                                 </option>
                                 <option value="promo" {{ old('type', $ticket->type) == 'promo' ? 'selected' : '' }}>
                                     Promo
