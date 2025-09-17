@@ -71,7 +71,6 @@ class PaymentController extends Controller
 
             // Cash → langsung ke success
             if ($request->payment_method === 'cash') {
-                Cart::where('user_id', Auth::id())->delete();
                 DB::commit();
                 return redirect()->route('payment.success', $transaction->id);
             }
@@ -111,6 +110,13 @@ class PaymentController extends Controller
         // Check if transaction belongs to current user
         if ($transaction->user_id !== Auth::id()) {
             return redirect()->route('tickets.index')->with('error', 'Unauthorized access');
+        }
+
+        Cart::where('user_id', Auth::id())->delete();
+
+        if ($transaction->payment_method === 'midtrans') {
+            $transaction->status = 'paid';
+            $transaction->save();
         }
 
         $eTickets = $transaction->eTickets;
