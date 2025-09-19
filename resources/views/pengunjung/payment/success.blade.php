@@ -11,10 +11,18 @@
                 </div>
 
                 <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">
-                    Pembayaran Berhasil!
+                    @if (session('cash_payment') || $transaction->payment_method === 'cash')
+                        E-Tiket Berhasil Dibuat!
+                    @else
+                        Pembayaran Berhasil!
+                    @endif
                 </h1>
                 <p class="text-xl text-green-100 mb-6">
-                    Terima kasih! E-tiket Anda telah berhasil dibuat dan siap digunakan.
+                    @if (session('cash_payment') || $transaction->payment_method === 'cash')
+                        E-tiket Anda telah dibuat. Silakan lakukan pembayaran tunai di loket saat tiba di lokasi.
+                    @else
+                        Terima kasih! E-tiket Anda telah berhasil dibuat dan siap digunakan.
+                    @endif
                 </p>
 
                 <!-- Transaction Info -->
@@ -144,6 +152,23 @@
                     </div>
 
                     <!-- Important Notes -->
+                    @if (session('cash_payment') || $transaction->payment_method === 'cash')
+                        <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
+                            <h4 class="font-semibold text-orange-900 mb-2">
+                                <i class="fas fa-money-bill mr-1"></i>
+                                Petunjuk Pembayaran Tunai:
+                            </h4>
+                            <ul class="text-sm text-orange-800 space-y-1">
+                                <li>• E-tiket sudah dibuat, namun pembayaran belum selesai</li>
+                                <li>• Datang ke loket waterboom dengan e-tiket ini</li>
+                                <li>• Lakukan pembayaran tunai Rp {{ number_format($transaction->total, 0, ',', '.') }}
+                                    di loket</li>
+                                <li>• Petugas akan melakukan scan dan tiket otomatis terbayar</li>
+                                <li>• Setelah pembayaran, Anda bisa langsung masuk waterboom</li>
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
                         <h4 class="font-semibold text-blue-900 mb-2">
                             <i class="fas fa-info-circle mr-1"></i>
@@ -152,6 +177,9 @@
                         <ul class="text-sm text-blue-800 space-y-1">
                             <li>• Simpan e-tiket ini dengan baik</li>
                             <li>• Tunjukkan QR code saat masuk waterboom</li>
+                            @if (session('cash_payment') || $transaction->payment_method === 'cash')
+                                <li>• Pembayaran akan diselesaikan saat scan di loket</li>
+                            @endif
                             <li>• E-tiket berlaku sesuai tanggal yang dipilih</li>
                             <li>• Hubungi customer service jika ada kendala</li>
                         </ul>

@@ -219,7 +219,7 @@
                         showSuccessMessage(data.message);
                         verifiedCount++;
                         updateStats();
-                        addToRecentVerifications(qrCode, 'success', data.message);
+                        addToRecentVerifications(qrCode, 'success', data.message, data.data);
                         playSuccessSound();
                     } else {
                         showErrorMessage(data.message);
@@ -281,7 +281,7 @@
         }
 
         // Add to recent verifications
-        function addToRecentVerifications(qrCode, status, message) {
+        function addToRecentVerifications(qrCode, status, message, data = null) {
             const container = document.getElementById('recent-verifications');
             const now = new Date();
             const timeString = now.toLocaleTimeString('id-ID');
@@ -293,18 +293,35 @@
             }
 
             const verificationItem = document.createElement('div');
-            verificationItem.className = `flex items-center justify-between p-4 rounded-lg border ${
+            verificationItem.className = `p-4 rounded-lg border ${
                 status === 'success' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
             }`;
 
-            verificationItem.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas ${status === 'success' ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-500'} mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-600">${message}</p>
+            let detailsHtml = '';
+            if (status === 'success' && data) {
+                detailsHtml = `
+                    <div class="mt-2 text-xs text-gray-600 space-y-1">
+                        <div><strong>Nama:</strong> ${data.customer_name}</div>
+                        <div><strong>Tiket:</strong> ${data.ticket_names}</div>
+                        <div><strong>Jumlah:</strong> ${data.total_quantity} tiket</div>
+                        <div><strong>Total:</strong> ${data.total_amount}</div>
+                        <div><strong>Pembayaran:</strong> ${data.payment_method}</div>
+                        ${data.payment_completed ? '<div class="text-green-600 font-medium">💰 Pembayaran tunai berhasil dikonfirmasi!</div>' : ''}
                     </div>
+                `;
+            }
+
+            verificationItem.innerHTML = `
+                <div class="flex items-start justify-between">
+                    <div class="flex items-start flex-1">
+                        <i class="fas ${status === 'success' ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-500'} mr-3 mt-1"></i>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800 font-medium">${message}</p>
+                            ${detailsHtml}
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 ml-4">${timeString}</div>
                 </div>
-                <div class="text-sm text-gray-500">${timeString}</div>
             `;
 
             // Add to the beginning of the list

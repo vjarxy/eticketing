@@ -64,8 +64,17 @@ class PetugasController extends Controller
                 ], 400);
             }
 
-            // Check if transaction is paid/confirmed
-            if (!in_array($ticket->transaction->status, ['paid', 'confirmed'])) {
+            // Check transaction status and handle cash payment auto-confirmation
+            if ($ticket->transaction->status === 'pending' && $ticket->transaction->payment_method === 'cash') {
+                // For cash payments, automatically mark as paid when scanned
+                $ticket->transaction->update([
+                    'status' => 'paid',
+                    'updated_at' => now()
+                ]);
+
+                // Add notification that payment was completed
+                $paymentCompletedMessage = ' ✅ PEMBAYARAN TUNAI BERHASIL DIKONFIRMASI!';
+            } elseif (!in_array($ticket->transaction->status, ['paid', 'confirmed'])) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Tiket belum dibayar atau dikonfirmasi'
@@ -98,17 +107,26 @@ class PetugasController extends Controller
             $ticketNames = $transactionDetails->pluck('ticket.name')->join(', ');
             $totalQuantity = $transactionDetails->sum('quantity');
 
+            $message = 'Tiket berhasil diverifikasi! Silakan masuk.';
+            if (isset($paymentCompletedMessage)) {
+                $message .= $paymentCompletedMessage;
+            }
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'Tiket berhasil diverifikasi! Silakan masuk.',
+                'message' => $message,
                 'data' => [
                     'ticket_id' => $ticket->id,
                     'transaction_id' => $ticket->transaction->id,
                     'customer_name' => $ticket->transaction->user->name,
+                    'customer_email' => $ticket->transaction->user->email,
                     'ticket_names' => $ticketNames,
                     'total_quantity' => $totalQuantity,
+                    'total_amount' => 'Rp ' . number_format($ticket->transaction->total, 0, ',', '.'),
+                    'payment_method' => $ticket->transaction->payment_method === 'cash' ? 'Tunai' : 'Midtrans',
                     'purchase_date' => $ticket->transaction->created_at->format('d/m/Y H:i'),
-                    'verification_time' => now()->format('d/m/Y H:i:s')
+                    'verification_time' => now()->format('d/m/Y H:i:s'),
+                    'payment_completed' => isset($paymentCompletedMessage) ? true : false
                 ]
             ]);
         } catch (\Exception $e) {
