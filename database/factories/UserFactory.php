@@ -37,14 +37,14 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
 
     public function admin()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'name' => 'Mufid',
             'email' => 'mufid@gmail.com',
             'password' => Hash::make('password123'),
@@ -55,12 +55,23 @@ class UserFactory extends Factory
 
     public function pengunjung()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'name' => 'Imam',
             'email' => 'imam@gmail.com',
             'password' => Hash::make('password123'),
             'remember_token' => Str::random(10),
             'role' => 'pengunjung',
+        ]);
+    }
+
+    public function petugas()
+    {
+        return $this->state(fn(array $attributes) => [
+            'name' => 'Petugas',
+            'email' => 'petugas@gmail.com',
+            'password' => Hash::make('password123'),
+            'remember_token' => Str::random(10),
+            'role' => 'petugas',
         ]);
     }
 }

@@ -37,15 +37,24 @@ class UserETicketController extends Controller
             return redirect()->route('user.etickets.index')->with('error', 'Akses tidak diizinkan');
         }
 
-        // Generate QR code
+        // Generate QR code - use the raw QR code string
+        $qrCodeData = $eTicket->qr_code;
         $qrCode = QrCode::size(300)
             ->backgroundColor(255, 255, 255)
             ->color(0, 0, 0)
             ->margin(2)
-            ->generate($eTicket->qr_code);
+            ->generate($qrCodeData);
 
         // Get ticket details from QR data
         $ticketDetails = json_decode($eTicket->qr_code, true);
+
+        // If QR code is not JSON, create basic details
+        if (!$ticketDetails) {
+            $ticketDetails = [
+                'transaction_id' => $eTicket->transaction_id,
+                'ticket_code' => $eTicket->qr_code
+            ];
+        }
 
         return view('pengunjung.etickets.show', compact('eTicket', 'qrCode', 'ticketDetails'));
     }

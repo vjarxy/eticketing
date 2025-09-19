@@ -2,6 +2,9 @@
     <x-slot name="title">Dashboard Petugas - Verifikasi Tiket</x-slot>
     <x-slot name="description">Dashboard untuk verifikasi e-tiket pengunjung</x-slot>
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Header -->
     <section class="bg-gradient-to-r from-blue-600 to-blue-800 py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -298,7 +301,6 @@
                 <div class="flex items-center">
                     <i class="fas ${status === 'success' ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-500'} mr-3"></i>
                     <div>
-                        <p class="font-semibold text-gray-900">${qrCode}</p>
                         <p class="text-sm text-gray-600">${message}</p>
                     </div>
                 </div>
@@ -352,8 +354,29 @@
             oscillator.stop(audioCtx.currentTime + 0.8);
         }
 
+        // Load initial statistics
+        function loadStats() {
+            fetch('/petugas/stats')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('verified-count').textContent = data.data.verified_today;
+                        document.getElementById('rejected-count').textContent =
+                            data.data.total_tickets_today - data.data.verified_today;
+                        verifiedCount = data.data.verified_today;
+                        rejectedCount = data.data.total_tickets_today - data.data.verified_today;
+                    }
+                })
+                .catch(error => {
+                    console.log('Failed to load statistics:', error);
+                });
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            // Load initial statistics
+            loadStats();
+
             // Add CSRF token to meta tag for API calls
             if (!document.querySelector('meta[name="csrf-token"]')) {
                 const meta = document.createElement('meta');

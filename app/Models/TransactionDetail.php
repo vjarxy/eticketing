@@ -16,7 +16,6 @@ class TransactionDetail extends Model
         'quantity',
         'price',
         'total',
-        'subtotal',
     ];
 
     public function transaction()

@@ -34,10 +34,20 @@ class PetugasController extends Controller
         $qrCode = $request->input('qr_code');
 
         try {
-            // Find the e-ticket with the QR code
-            $ticket = ETicket::with(['transaction.user'])
-                ->where('qr_code', $qrCode)
-                ->first();
+            // Try to decode QR code first to get transaction_id
+            $qrData = json_decode($qrCode, true);
+
+            // If QR code is not JSON, treat it as raw QR code
+            if (!$qrData) {
+                $ticket = ETicket::with(['transaction.user'])
+                    ->where('qr_code', $qrCode)
+                    ->first();
+            } else {
+                // If QR code is JSON, find by transaction_id
+                $ticket = ETicket::with(['transaction.user'])
+                    ->where('transaction_id', $qrData['transaction_id'] ?? null)
+                    ->first();
+            }
 
             if (!$ticket) {
                 return response()->json([
@@ -62,16 +72,16 @@ class PetugasController extends Controller
                 ], 400);
             }
 
-            // Check if ticket is expired (assuming tickets are valid for the purchase date)
-            $purchaseDate = $ticket->transaction->created_at->format('Y-m-d');
-            $today = Carbon::now()->format('Y-m-d');
+            // Check if ticket is expired
+            // For waterboom tickets, let's assume they're valid for 30 days from purchase
+            $purchaseDate = $ticket->transaction->created_at;
+            $expiryDate = $purchaseDate->copy()->addDays(30);
+            $today = Carbon::now();
 
-            // For simplicity, assuming tickets are valid for the same day
-            // You can modify this logic based on your business rules
-            if ($purchaseDate !== $today) {
+            if ($today->greaterThan($expiryDate)) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Tiket sudah expired atau belum valid untuk hari ini'
+                    'message' => 'Tiket sudah expired (kadaluarsa sejak ' . $expiryDate->format('d/m/Y') . ')'
                 ], 400);
             }
 
@@ -102,11 +112,22 @@ class PetugasController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            Log::error('Ticket verification error: ' . $e->getMessage());
+            Log::error('Ticket verification error', [
+                'message' => $e->getMessage(),
+                'qr_code' => $qrCode,
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Don't expose internal error details in production
+            $message = config('app.debug')
+                ? 'Error: ' . $e->getMessage() . ' (Line: ' . $e->getLine() . ')'
+                : 'Terjadi kesalahan sistem saat memverifikasi tiket';
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Terjadi kesalahan sistem saat memverifikasi tiket'
+                'message' => $message
             ], 500);
         }
     }

@@ -37,7 +37,7 @@ class PaymentController extends Controller
     public function processPayment(Request $request)
     {
         $request->validate([
-            'payment_method' => 'required|in:cash,midtrans,qris',
+            'payment_method' => 'required|in:cash,midtrans',
         ]);
 
         DB::beginTransaction();
@@ -49,7 +49,10 @@ class PaymentController extends Controller
                 'payment_method' => $request->payment_method,
             ]);
 
-            foreach (Cart::where('user_id', Auth::id())->get() as $cartItem) {
+            $cartItems = Cart::where('user_id', Auth::id())->with('ticket')->get();
+            $totalAmount = 0;
+
+            foreach ($cartItems as $cartItem) {
                 TransactionDetail::create([
                     'transaction_id' => $transaction->id,
                     'ticket_id' => $cartItem->ticket_id,
@@ -58,19 +61,29 @@ class PaymentController extends Controller
                     'total' => $cartItem->total,
                 ]);
 
-                ETicket::create([
-                    'transaction_id' => $transaction->id,
-                    'ticket_id' => $cartItem->ticket_id,
-                    'quantity' => $cartItem->quantity,
-                    'qr_code' => json_encode([
-                        'transaction_id' => $transaction->id,
-                        'ticket_id' => $cartItem->ticket_id,
-                    ]),
-                ]);
+                $totalAmount += $cartItem->total;
             }
 
-            // Cash → langsung ke success
+            // Update transaction total
+            $transaction->update(['total' => $totalAmount]);
+
+            // Create one e-ticket per transaction
+            $qrData = [
+                'transaction_id' => $transaction->id,
+                'user_id' => Auth::id(),
+                'timestamp' => now()->timestamp,
+                'verification_code' => substr(hash('sha256', $transaction->id . Auth::id() . now()), 0, 16)
+            ];
+
+            ETicket::create([
+                'transaction_id' => $transaction->id,
+                'qr_code' => json_encode($qrData),
+                'status' => 'active',
+            ]);
+
+            // Cash → set status confirmed dan langsung ke success
             if ($request->payment_method === 'cash') {
+                $transaction->update(['status' => 'confirmed']);
                 DB::commit();
                 return redirect()->route('payment.success', $transaction->id);
             }

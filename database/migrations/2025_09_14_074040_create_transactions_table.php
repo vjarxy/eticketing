@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->integer('total');
             $table->enum('payment_method', ['cash', 'midtrans'])->default('cash');
-            $table->enum('status', ['pending', 'paid', 'cancel'])->default('pending');
+            $table->enum('status', ['pending', 'paid', 'confirmed', 'cancel'])->default('pending');
             $table->timestamps();
         });
     }
