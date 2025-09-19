@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
             $table->string('qr_code');
-            $table->enum('status', ['valid', 'used', 'expired'])->default('valid');
+            $table->enum('status', ['active', 'used', 'expired'])->default('active');
+            $table->timestamp('used_at')->nullable();
             $table->timestamps();
         });
     }

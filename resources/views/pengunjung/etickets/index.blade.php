@@ -119,16 +119,11 @@
                                                         </p>
                                                     </div>
                                                     <span
-                                                        class="
-                                                        @if ($eTicket->status == 'valid') bg-green-100 text-green-800
-                                                        @elseif($eTicket->status == 'used') bg-gray-100 text-gray-800
-                                                        @else bg-red-100 text-red-800 @endif
-                                                        px-2 py-1 rounded-full text-xs font-semibold
-                                                    ">
+                                                        class="{{ $eTicket->status == 'active' ? 'bg-green-100 text-green-800' : ($eTicket->status == 'used' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800') }}
+                                                        px-2 py-1 rounded-full text-xs font-semibold">
                                                         {{ strtoupper($eTicket->status) }}
                                                     </span>
                                                 </div>
-
                                                 <!-- Mini QR Code -->
                                                 <div class="text-center mb-3">
                                                     <div

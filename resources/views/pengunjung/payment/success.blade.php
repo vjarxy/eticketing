@@ -54,8 +54,6 @@
                             <span class="font-semibold text-gray-900">
                                 @if ($transaction->payment_method === 'cash')
                                     <i class="fas fa-money-bill mr-1 text-green-600"></i>Tunai
-                                @elseif($transaction->payment_method === 'qris')
-                                    <i class="fas fa-qrcode mr-1 text-blue-600"></i>QRIS
                                 @else
                                     <i class="fas fa-credit-card mr-1 text-purple-600"></i>Midtrans
                                 @endif
@@ -124,9 +122,9 @@
                                         <div class="flex items-center mt-2">
                                             <span
                                                 class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                                                {{ $eTicket->status === 'valid' ? 'bg-green-100 text-green-800' : ($eTicket->status === 'used' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800') }}">
-                                                @if ($eTicket->status === 'valid')
-                                                    <i class="fas fa-check-circle mr-1"></i>Valid
+                                                {{ $eTicket->status === 'active' ? 'bg-green-100 text-green-800' : ($eTicket->status === 'used' ? 'bg-gray-100 text-gray-800' : 'bg-red-100 text-red-800') }}">
+                                                @if ($eTicket->status === 'active')
+                                                    <i class="fas fa-check-circle mr-1"></i>Aktif
                                                 @elseif($eTicket->status === 'used')
                                                     <i class="fas fa-times-circle mr-1"></i>Sudah Digunakan
                                                 @else

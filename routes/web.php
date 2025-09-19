@@ -69,7 +69,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Petugas
 Route::middleware(['auth', 'role:petugas'])->group(function () {
-    Route::get('petugas/dashboard', [PetugasController::class, 'index']);
+    Route::get('petugas/dashboard', [PetugasController::class, 'index'])->name('petugas.dashboard');
+    Route::post('petugas/verifikasi', [PetugasController::class, 'verifikasi'])->name('petugas.verifikasi');
+    Route::get('petugas/stats', [PetugasController::class, 'getStats'])->name('petugas.stats');
 });
 
 // Pengunjung

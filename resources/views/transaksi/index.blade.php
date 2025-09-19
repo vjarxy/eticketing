@@ -1,4 +1,4 @@
-@extends('layout.app')
+{{-- @extends('layout.app')
 
 @section('content')
     <h2 class="text-2xl font-bold mb-4">Beli Tiket</h2>
@@ -16,4 +16,4 @@
             </form>
         </div>
     @endforeach
-@endsection
+@endsection --}}

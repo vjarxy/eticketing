@@ -13,7 +13,12 @@ class ETicket extends Model
     protected $fillable = [
         'transaction_id',
         'qr_code',
-        'status'
+        'status',
+        'used_at'
+    ];
+
+    protected $casts = [
+        'used_at' => 'datetime',
     ];
 
     public function transaction()
