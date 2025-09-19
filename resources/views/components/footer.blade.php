@@ -57,9 +57,9 @@
                             class="text-gray-300 hover:text-white transition-colors duration-200">Fitur</a></li>
                     <li><a href="#about"
                             class="text-gray-300 hover:text-white transition-colors duration-200">Tentang</a></li>
-                    <li><a href="/login"
+                    <li><a href="/auth/login"
                             class="text-gray-300 hover:text-white transition-colors duration-200">Masuk</a></li>
-                    <li><a href="/register"
+                    <li><a href="/auth/register"
                             class="text-gray-300 hover:text-white transition-colors duration-200">Daftar</a></li>
                 </ul>
             </div>

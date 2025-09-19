@@ -33,7 +33,7 @@
                     Users
                 </a>
 
-                <a href="{{ route('tickets.index') }}" class="flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('tickets.*') ? 'bg-gray-700' : '' }}">
+                <a href="/admin/tickets" class="flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('tickets.*') ? 'bg-gray-700' : '' }}">
                     <i class="fas fa-ticket-alt mr-3"></i>
                     Tickets
                 </a>

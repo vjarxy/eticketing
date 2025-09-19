@@ -94,7 +94,8 @@
                                             d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                     </svg>
                                     <h4 class="text-lg font-semibold text-gray-800 mb-2">Mobile Friendly</h4>
-                                    <p class="text-sm text-gray-600 text-center">Responsif di semua perangkat mobile</p>
+                                    <p class="text-sm text-gray-600 text-center">Responsif di semua perangkat mobile
+                                    </p>
                                 </div>
                             </div>
 
@@ -500,7 +501,7 @@
 
                 <!-- Tiket Premium -->
                 <div
-                    class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gradient-to-r from-purple-500 to-pink-500 overflow-hidden lg:transform lg:scale-105">
+                    class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-gradient-to-r from-purple-500 to-pink-500 overflow-hidden lg:transform lg:scale-105">
                     <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 to-pink-500"></div>
                     <div
                         class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">

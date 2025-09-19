@@ -37,7 +37,7 @@
                         <i class="fas fa-ticket-alt text-2xl"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">Total Tiket</p>
+                        <p class="text-sm font-medium text-gray-600">Total Tiket Aktif</p>
                         <p class="text-2xl font-semibold text-gray-900">{{ $totalTiket ?? 0 }}</p>
                     </div>
                 </div>
@@ -51,17 +51,45 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600">Transaksi Hari Ini</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $transaksiHariIni ?? 0 }}</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $transaksiHariIni->count() ?? 0 }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Added recent transactions table -->
+        <!-- Additional Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Total Transaksi -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-600">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Transaksi</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $totalTransaksi ?? 0 }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pendapatan Hari Ini -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                        <i class="fas fa-coins text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Pendapatan Hari Ini</p>
+                        <p class="text-2xl font-semibold text-gray-900">Rp {{ number_format($pendapatanHariIni ?? 0, 0, ',', '.') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Recent Transactions -->
         <div class="bg-white rounded-lg shadow">
             <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">Transaksi Terbaru</h3>
+                <h3 class="text-lg font-medium text-gray-900">Transaksi Hari Ini</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
@@ -84,7 +112,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($recentTransactions ?? [] as $transaction)
+                        @forelse($transaksiHariIni as $transaction)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                     #{{ $transaction->id }}
@@ -93,13 +121,7 @@
                                     {{ $transaction->user->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $transaction->ticket->nama }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $transaction->jumlah }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    Rp {{ number_format($transaction->total_harga, 0, ',', '.') }}
+                                    Rp {{ number_format($transaction->total, 0, ',', '.') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
@@ -109,13 +131,13 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $transaction->created_at->format('d/m/Y H:i') }}
+                                    {{ $transaction->created_at->format('H:i') }}
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                                    Belum ada transaksi
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    Belum ada transaksi hari ini
                                 </td>
                             </tr>
                         @endforelse

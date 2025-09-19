@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -53,7 +54,7 @@ Route::prefix('auth')->group(function () {
 
 // Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('admin/dashboard', [AdminController::class, 'index']);
+    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('admin/users', UserController::class);
     Route::resource('admin/tickets', TicketController::class)->names([
         'index' => 'admin.tickets.index',
@@ -77,4 +78,7 @@ Route::middleware(['auth', 'role:petugas'])->group(function () {
 Route::middleware(['auth', 'role:pengunjung'])->group(function () {
     Route::get('transaksi', [TransactionController::class, 'index']);
     Route::post('transaksi/beli', [TransactionController::class, 'store']);
+    Route::get('profile', [ProfileController::class, 'index'])->name('pengunjung.profile.index');
+    Route::put('profile/update', [ProfileController::class, 'update'])->name('pengunjung.profile.update');
+    Route::put('profile/update/password', [ProfileController::class, 'password'])->name('pengunjung.profile.password');
 });

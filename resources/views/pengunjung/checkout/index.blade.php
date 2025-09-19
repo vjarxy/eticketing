@@ -1,3 +1,7 @@
+{{-- @if (session('snapToken'))
+    {{ dd(session('snapToken')) }}
+@endif --}}
+
 <x-app-layout>
     <!-- Checkout Content -->
     <section class="py-20 bg-gray-50 min-h-screen">
@@ -28,6 +32,8 @@
 
             <form action="{{ route('payment.process') }}" method="POST">
                 @csrf
+
+                <input type="hidden" name="total" id="total" value="{{ $total }}">
                 <div class="grid lg:grid-cols-3 gap-8">
                     <!-- Payment Methods -->
                     <div class="lg:col-span-2">
@@ -256,9 +262,13 @@
         </div>
     </section>
 
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
+    </script>
+
     <script>
         // Debug form submission
         document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
             console.log('Form is being submitted');
             console.log('Action:', this.action);
             console.log('Method:', this.method);
@@ -272,4 +282,20 @@
             submitBtn.disabled = true;
         });
     </script>
+
+    @if (session('snapToken'))
+        <script>
+            snap.pay("{{ session('snapToken') }}", {
+                onSuccess: function(result) {
+                    window.location = "{{ route('payment.success', session('transactionId')) }}";
+                },
+                onPending: function(result) {
+                    alert("Menunggu pembayaran...");
+                },
+                onError: function(result) {
+                    alert("Pembayaran gagal");
+                }
+            });
+        </script>
+    @endif
 </x-app-layout>

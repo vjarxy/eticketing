@@ -7,11 +7,14 @@ use App\Models\TransactionDetail;
 use App\Models\ETicket;
 use App\Models\PaymentMethod;
 use App\Mail\ETicketMail;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Midtrans\Config;
+use Midtrans\Snap;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PaymentController extends Controller
@@ -34,74 +37,71 @@ class PaymentController extends Controller
     public function processPayment(Request $request)
     {
         $request->validate([
-            'payment_method' => 'required|string',
+            'payment_method' => 'required|in:cash,midtrans,qris',
         ]);
 
-        $user = Auth::user();
-        $cartItems = $user->carts()->with('ticket')->get();
-
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Keranjang kosong');
-        }
-
-        $total = $cartItems->sum('total');
-
         DB::beginTransaction();
-
         try {
-            // Create transaction
             $transaction = Transaction::create([
-                'user_id' => $user->id,
-                'total' => $total,
-                'payment_method' => $request->payment_method,
+                'user_id' => Auth::id(),
+                'total' => $request->total,
                 'status' => 'pending',
+                'payment_method' => $request->payment_method,
             ]);
 
-            // Create transaction details
-            foreach ($cartItems as $item) {
+            foreach (Cart::where('user_id', Auth::id())->get() as $cartItem) {
                 TransactionDetail::create([
                     'transaction_id' => $transaction->id,
-                    'ticket_id' => $item->ticket_id,
-                    'quantity' => $item->quantity,
-                    'price' => $item->price,
-                    'total' => $item->total,
+                    'ticket_id' => $cartItem->ticket_id,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $cartItem->ticket->price,
+                    'total' => $cartItem->total,
+                ]);
+
+                ETicket::create([
+                    'transaction_id' => $transaction->id,
+                    'ticket_id' => $cartItem->ticket_id,
+                    'quantity' => $cartItem->quantity,
+                    'qr_code' => json_encode([
+                        'transaction_id' => $transaction->id,
+                        'ticket_id' => $cartItem->ticket_id,
+                    ]),
                 ]);
             }
 
-            // Generate E-Ticket with QR code for each ticket
-            foreach ($cartItems as $item) {
-                for ($i = 1; $i <= $item->quantity; $i++) {
-                    // Create comprehensive QR data
-                    $qrData = json_encode([
-                        'transaction_id' => $transaction->id,
-                        'ticket_id' => $item->ticket_id,
-                        'ticket_name' => $item->ticket->name,
-                        'user_name' => $user->name,
-                        'issued_at' => now()->toDateTimeString(),
-                        'verification_code' => 'TIK-' . strtoupper(uniqid()),
-                    ]);
-
-                    ETicket::create([
-                        'transaction_id' => $transaction->id,
-                        'qr_code' => $qrData,
-                        'status' => 'valid',
-                    ]);
-                }
+            // Cash → langsung ke success
+            if ($request->payment_method === 'cash') {
+                DB::commit();
+                return redirect()->route('payment.success', $transaction->id);
             }
 
-            // Clear cart
-            $user->carts()->delete();
+            // Midtrans → generate Snap
+            if ($request->payment_method === 'midtrans') {
+                Config::$serverKey = config('midtrans.serverKey');
+                Config::$isProduction = config('midtrans.isProduction');
+                Config::$isSanitized = true;
+                Config::$is3ds = true;
 
-            // For demo: Skip payment processing and mark as paid
-            $transaction->update(['status' => 'paid']);
+                $params = [
+                    'transaction_details' => [
+                        'order_id' => $transaction->id,
+                        'gross_amount' => $transaction->total,
+                    ],
+                    'customer_details' => [
+                        'name' => Auth::user()->name,
+                        'email' => Auth::user()->email,
+                    ],
+                ];
 
-            DB::commit();
+                $snapToken = Snap::getSnapToken($params);
 
-            return redirect()->route('payment.success', $transaction->id)
-                ->with('success', 'Pembayaran berhasil diproses');
+                DB::commit();
+                // Kirim snapToken ke halaman yang sama
+                return back()->with('snapToken', $snapToken)->with('transactionId', $transaction->id);
+            }
         } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage());
+            DB::rollBack();
+            return back()->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
         }
     }
 
@@ -110,6 +110,13 @@ class PaymentController extends Controller
         // Check if transaction belongs to current user
         if ($transaction->user_id !== Auth::id()) {
             return redirect()->route('tickets.index')->with('error', 'Unauthorized access');
+        }
+
+        Cart::where('user_id', Auth::id())->delete();
+
+        if ($transaction->payment_method === 'midtrans') {
+            $transaction->status = 'paid';
+            $transaction->save();
         }
 
         $eTickets = $transaction->eTickets;

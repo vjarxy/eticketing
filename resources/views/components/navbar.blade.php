@@ -68,6 +68,10 @@
                         <!-- Dropdown Menu -->
                         <div id="userMenu"
                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
+                            <a href="{{ route('pengunjung.profile.index') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-ticket-alt mr-2"></i>Profile Saya
+                            </a>
                             <a href="{{ route('tickets.index') }}"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                                 <i class="fas fa-ticket-alt mr-2"></i>Beli Tiket
