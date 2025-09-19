@@ -49,20 +49,13 @@
                                                     <!-- Payment Method Icon -->
                                                     <div
                                                         class="w-16 h-16 rounded-xl flex items-center justify-center
-                                                        {{ $method->code === 'cash' ? 'bg-green-100' : ($method->code === 'qris' ? 'bg-blue-100' : 'bg-purple-100') }}">
+                                                        {{ $method->code === 'cash' ? 'bg-green-100' : 'bg-purple-100' }}">
                                                         @if ($method->code === 'cash')
                                                             <svg class="w-8 h-8 text-green-600" fill="none"
                                                                 stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2"
                                                                     d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                                                            </svg>
-                                                        @elseif($method->code === 'qris')
-                                                            <svg class="w-8 h-8 text-blue-600" fill="none"
-                                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                                                             </svg>
                                                         @else
                                                             <svg class="w-8 h-8 text-purple-600" fill="none"
@@ -88,17 +81,6 @@
                                                                 </svg>
                                                                 <span class="text-sm text-green-600 font-medium">Bayar
                                                                     di tempat</span>
-                                                            </div>
-                                                        @elseif($method->code === 'qris')
-                                                            <div class="flex items-center mt-2">
-                                                                <svg class="w-4 h-4 text-blue-500 mr-1" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="text-sm text-blue-600 font-medium">Bayar
-                                                                    instant</span>
                                                             </div>
                                                         @else
                                                             <div class="flex items-center mt-2">
@@ -145,28 +127,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @elseif($method->code === 'qris')
-                                                <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                                                    <div class="flex items-start">
-                                                        <svg class="w-5 h-5 text-blue-500 mt-0.5 mr-2" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                                            </path>
-                                                        </svg>
-                                                        <div class="text-sm text-blue-700">
-                                                            <p class="font-medium mb-1">Pembayaran QRIS</p>
-                                                            <p>Scan QR code dengan aplikasi e-wallet atau mobile banking
-                                                                Anda. Pembayaran akan terverifikasi otomatis.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             @else
                                                 <div class="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
                                                     <div class="flex items-start">
-                                                        <svg class="w-5 h-5 text-purple-500 mt-0.5 mr-2"
-                                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <svg class="w-5 h-5 text-purple-500 mt-0.5 mr-2" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
                                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">

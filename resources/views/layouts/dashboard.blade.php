@@ -587,7 +587,4 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <x-footer />
 </x-app-layout>

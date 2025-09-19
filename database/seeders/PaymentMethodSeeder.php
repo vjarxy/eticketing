@@ -21,12 +21,6 @@ class PaymentMethodSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'name' => 'QRIS',
-                'code' => 'qris',
-                'description' => 'Pembayaran melalui QRIS',
-                'is_active' => true,
-            ],
-            [
                 'name' => 'Midtrans',
                 'code' => 'midtrans',
                 'description' => 'Pembayaran melalui gateway Midtrans',

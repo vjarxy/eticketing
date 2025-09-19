@@ -54,8 +54,6 @@
                             <span class="font-semibold text-gray-900">
                                 @if ($transaction->payment_method === 'cash')
                                     <i class="fas fa-money-bill mr-1 text-green-600"></i>Tunai
-                                @elseif($transaction->payment_method === 'qris')
-                                    <i class="fas fa-qrcode mr-1 text-blue-600"></i>QRIS
                                 @else
                                     <i class="fas fa-credit-card mr-1 text-purple-600"></i>Midtrans
                                 @endif
