@@ -266,13 +266,8 @@
     </script>
 
     <script>
-        // Debug form submission
+        // Form submission handler
         document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            console.log('Form is being submitted');
-            console.log('Action:', this.action);
-            console.log('Method:', this.method);
-
             const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
             console.log('Selected payment method:', paymentMethod ? paymentMethod.value : 'None');
 
@@ -280,6 +275,8 @@
             const submitBtn = document.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Memproses...';
             submitBtn.disabled = true;
+
+            // Let the form submit normally (remove preventDefault)
         });
     </script>
 

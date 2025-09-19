@@ -81,11 +81,13 @@ class PaymentController extends Controller
                 'status' => 'active',
             ]);
 
-            // Cash → set status confirmed dan langsung ke success
+            // Cash → tetap pending, akan dibayar saat scan oleh petugas
             if ($request->payment_method === 'cash') {
-                $transaction->update(['status' => 'confirmed']);
                 DB::commit();
-                return redirect()->route('payment.success', $transaction->id);
+                Cart::where('user_id', Auth::id())->delete();
+                return redirect()->route('payment.success', $transaction->id)
+                    ->with('cash_payment', true)
+                    ->with('success', 'E-tiket berhasil dibuat! Silakan lakukan pembayaran tunai di loket waterboom.');
             }
 
             // Midtrans → generate Snap
@@ -125,11 +127,8 @@ class PaymentController extends Controller
             return redirect()->route('tickets.index')->with('error', 'Unauthorized access');
         }
 
-        Cart::where('user_id', Auth::id())->delete();
-
         if ($transaction->payment_method === 'midtrans') {
-            $transaction->status = 'paid';
-            $transaction->save();
+            $transaction->update(['status' => 'paid']);
         }
 
         $eTickets = $transaction->eTickets;

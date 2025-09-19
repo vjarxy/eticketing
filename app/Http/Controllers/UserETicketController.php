@@ -17,9 +17,9 @@ class UserETicketController extends Controller
     {
         $user = Auth::user();
 
-        // Get all user's paid transactions with e-tickets
+        // Get all user's transactions with e-tickets (including pending cash payments)
         $transactions = Transaction::where('user_id', $user->id)
-            ->where('status', 'paid')
+            ->whereIn('status', ['pending', 'paid', 'confirmed']) // Include pending for cash payments
             ->with(['eTickets', 'transactionDetails.ticket'])
             ->orderBy('created_at', 'desc')
             ->get();
@@ -35,6 +35,11 @@ class UserETicketController extends Controller
         // Check if e-ticket belongs to current user
         if ($eTicket->transaction->user_id !== Auth::id()) {
             return redirect()->route('user.etickets.index')->with('error', 'Akses tidak diizinkan');
+        }
+
+        // Check if transaction is valid (not cancelled)
+        if ($eTicket->transaction->status === 'cancel') {
+            return redirect()->route('user.etickets.index')->with('error', 'E-tiket ini telah dibatalkan');
         }
 
         // Generate QR code - use the raw QR code string
