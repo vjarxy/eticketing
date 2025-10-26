@@ -135,6 +135,77 @@
         </div>
     </section>
 
+    <!-- Banner Promo Section -->
+    <section id="promo" class="py-12 bg-gradient-to-br from-blue-50 via-white to-cyan-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+
+        <!-- Kolom Banner (Swiper) -->
+        <div class="swiper promoSwiper w-full max-w-md">
+            <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide">
+                <img src="/images/banner1.jpg" 
+                    alt="Promo Tiket 1" 
+                    class="w-full h-150 object-cover rounded-2xl shadow-xl border-4 border-white">
+            </div>
+            <!-- Slide 2 -->
+            <div class="swiper-slide">
+                <img src="/images/banner2.jpg" 
+                    alt="Promo Tiket 2" 
+                    class="w-full h-150 object-cover rounded-2xl shadow-xl border-4 border-white">
+            </div>
+            <!-- Slide 3 -->
+            <div class="swiper-slide">
+                <img src="/images/banner3.jpg" 
+                    alt="Promo Tiket 3" 
+                    class="w-full h-150 object-cover rounded-2xl shadow-xl border-4 border-white">
+            </div>
+            </div>
+
+            <!-- Pagination (Titik) -->
+            <div class="swiper-pagination mt-4"></div>
+        </div>
+
+        <!-- Kolom Keterangan (Statis) -->
+        <div class="text-center md:text-left">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            🎉 Promo Spesial Akhir Pekan
+            </h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                Nikmati berbagai penawaran menarik untuk setiap pembelian tiket online. 
+            </p>
+            <a href="{{ route('tickets.index') }}"
+            class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-xl 
+                    hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 font-semibold 
+                    shadow-lg hover:shadow-2xl transform hover:-translate-y-1 inline-block">
+            Pesan Sekarang
+            </a>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- SwiperJS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        new Swiper(".promoSwiper", {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        });
+    });
+    </script>
+
     <!-- Features Section -->
     <section id="features" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -336,10 +407,92 @@
             </div>
     </section>
 
+    <!-- Statistik Section -->
+<section id="statistik" class="py-12 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 text-center">
+      📊 Statistik Pengunjung
+    </h2>
 
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Hari Paling Ramai -->
+      <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl shadow">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Hari Paling Ramai</h3>
+        <p class="text-2xl font-bold text-blue-600">{{ $hariRamai }}</p>
+        <p class="text-sm text-gray-500 mt-1">Berdasarkan data 30 hari terakhir</p>
+      </div>
+
+      <!-- Rata-rata Pengunjung Per Hari -->
+      <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl shadow">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Rata-rata / Hari</h3>
+        <p class="text-2xl font-bold text-blue-600">{{ $rataPengunjung }}</p>
+        <p class="text-sm text-gray-500 mt-1">Pengunjung setiap harinya</p>
+      </div>
+
+      <!-- Total Bulan Ini -->
+      <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl shadow">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $bulanSekarang }}</h3>
+        <p class="text-2xl font-bold text-blue-600">{{ $totalBulanIni }}</p>
+        <p class="text-sm text-gray-500 mt-1">Total pengunjung bulan ini</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="wahana" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Wahana Seru</h2>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Nikmati berbagai wahana air seru yang siap memberikan pengalaman tak terlupakan
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Wahana 1 -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl shadow-lg p-6 text-center">
+                    <img src="/images/seluncuran.jpeg" alt="Seluncuran Air" class="w-full h-48 object-cover rounded-xl mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Seluncuran Air Raksasa</h3>
+                    <p class="text-gray-600">Rasakan adrenalin di seluncuran air dengan tinggi belasan meter.</p>
+                </div>
+
+                <!-- Wahana 2 -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl shadow-lg p-6 text-center">
+                    <img src="/images/kolam.jpeg" alt="Kolam Anak" class="w-full h-48 object-cover rounded-xl mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Kolam Anak</h3>
+                    <p class="text-gray-600">Kolam khusus anak-anak dengan permainan yang aman dan seru.</p>
+                </div>
+
+                <!-- Wahana 3 -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl shadow-lg p-6 text-center">
+                    <img src="/images/ombak.jpg" alt="Kolam Ombak" class="w-full h-48 object-cover rounded-xl mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Kolam Ombak</h3>
+                    <p class="text-gray-600">Nikmati sensasi ombak buatan layaknya di pantai tropis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Galeri</h2>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Suasana seru dan momen kebersamaan di Grand Waterboom Maros
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <img src="/images/suasana1.jpg" class="w-full h-48 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300" alt="Galeri 1">
+                <img src="/images/suasana2.jpeg" class="w-full h-48 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300" alt="Galeri 2">
+                <img src="/images/suasana3.jpeg" class="w-full h-48 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300" alt="Galeri 3">
+                <img src="/images/suasana4.jpg" class="w-full h-48 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300" alt="Galeri 4">
+            </div>
+        </div>
+    </section>
 
     <!-- Paket Tiket Section -->
-    <section id="paket-tiket" class="py-20 bg-gray-50">
+    <section id="tiket" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Paket Tiket Tersedia</h2>
@@ -363,52 +516,15 @@
                                         d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Tiket Reguler</h3>
-                            <p class="text-gray-600">Paket standar untuk pengalaman waterboom</p>
                         </div>
 
                         <div class="text-center mb-8">
                             <div class="text-4xl font-bold text-gray-900 mb-2">
-                                Rp 35.000
+                                Rp 20.000
                                 <span class="text-lg font-normal text-gray-500">/orang</span>
                             </div>
                             <div class="text-sm text-gray-500">Weekday (Senin - Jumat)</div>
                         </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Akses semua wahana air</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Fasilitas locker</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Area parkir gratis</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Berlaku seharian</span>
-                            </li>
-                        </ul>
 
                         @auth
                             <a href="{{ route('tickets.index') }}"
@@ -429,61 +545,24 @@
                     class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden">
                     <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 to-red-500"></div>
                     <div class="p-8">
-                        <div class="text-center mb-6">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-r from-orange-100 to-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor"
+                    <div class="text-center mb-6">
+                        <div
+                                class="w-16 h-16 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                        d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Tiket Weekend</h3>
-                            <p class="text-gray-600">Paket spesial untuk akhir pekan</p>
                         </div>
 
                         <div class="text-center mb-8">
                             <div class="text-4xl font-bold text-gray-900 mb-2">
-                                Rp 45.000
+                                Rp 35.000
                                 <span class="text-lg font-normal text-gray-500">/orang</span>
                             </div>
-                            <div class="text-sm text-gray-500">Weekend (Sabtu - Minggu)</div>
+                            <div class="text-sm text-gray-500">Khusus Hari Sabtu</div>
                         </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Semua fasilitas reguler</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Akses wahana premium</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Welcome drink gratis</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Event & hiburan spesial</span>
-                            </li>
-                        </ul>
 
                         @auth
                             <a href="{{ route('tickets.index') }}"
@@ -501,85 +580,36 @@
 
                 <!-- Tiket Premium -->
                 <div
-                    class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-gradient-to-r from-purple-500 to-pink-500 overflow-hidden lg:transform lg:scale-105">
+                    class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-gradient-to-r from-purple-500 to-pink-500 overflow-hidden">
                     <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 to-pink-500"></div>
-                    <div
-                        class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                        POPULER
-                    </div>
                     <div class="p-8">
-                        <div class="text-center mb-6">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor"
+                    <div class="text-center mb-6">
+                        <div
+                                class="w-16 h-16 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                        d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Tiket Premium</h3>
-                            <p class="text-gray-600">Pengalaman terbaik dengan layanan VIP</p>
                         </div>
 
                         <div class="text-center mb-8">
                             <div class="text-4xl font-bold text-gray-900 mb-2">
-                                Rp 75.000
+                                Rp 40.000
                                 <span class="text-lg font-normal text-gray-500">/orang</span>
                             </div>
-                            <div class="text-sm text-gray-500">Berlaku setiap hari</div>
+                            <div class="text-sm text-gray-500">Weekend (Minggu dan Hari Libur Nasional)</div>
                         </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Semua fasilitas premium</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Private locker VIP</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Free lunch & snack</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Priority access semua wahana</span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-gray-700">Photo session gratis</span>
-                            </li>
-                        </ul>
 
                         @auth
                             <a href="{{ route('tickets.index') }}"
-                                class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl group-hover:scale-105 transform text-center">
+                                class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl group-hover:scale-105 transform text-center">
                                 Pilih Paket
                             </a>
                         @else
                             <a href="{{ route('login') }}"
-                                class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl group-hover:scale-105 transform text-center">
+                                class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl group-hover:scale-105 transform text-center">
                                 Login untuk Beli
                             </a>
                         @endauth
@@ -588,4 +618,44 @@
             </div>
         </div>
     </section>
+
+    <section id="kontak" class="py-20 bg-gradient-to-br from-blue-50 to-cyan-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Kontak Kami</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Punya pertanyaan atau butuh bantuan? Hubungi kami melalui form berikut atau langsung ke kontak resmi.
+                    </p>
+                    <ul class="space-y-4 text-gray-700">
+                        <li><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>Jl. Poros Maros – Makassar, Sulawesi Selatan</li>
+                        <li><i class="fas fa-phone text-blue-500 mr-2"></i>+62 812 3456 7890</li>
+                        <li><i class="fas fa-envelope text-blue-500 mr-2"></i>info@grandwaterboom.com</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <form action="#" method="POST" class="bg-white p-8 rounded-2xl shadow-xl space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700">Nama</label>
+                            <input type="text" name="nama" class="w-full mt-2 border rounded-lg p-3 focus:ring focus:ring-blue-200" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700">Email</label>
+                            <input type="email" name="email" class="w-full mt-2 border rounded-lg p-3 focus:ring focus:ring-blue-200" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700">Pesan</label>
+                            <textarea name="pesan" rows="4" class="w-full mt-2 border rounded-lg p-3 focus:ring focus:ring-blue-200" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all">
+                            Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 </x-app-layout>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

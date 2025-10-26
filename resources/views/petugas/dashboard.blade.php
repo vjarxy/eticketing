@@ -66,32 +66,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- Manual Input Alternative -->
-                    <div class="border-t pt-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">
-                            Atau masukkan kode secara manual
-                        </h3>
-                        <form id="manual-verification-form" class="space-y-4">
-                            <div>
-                                <label for="qr-code-input" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Kode QR E-Tiket
-                                </label>
-                                <div class="relative">
-                                    <input type="text" id="qr-code-input" name="qr_code"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Masukkan kode QR e-tiket" autocomplete="off">
-                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                        <i class="fas fa-barcode text-gray-400"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit"
-                                class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-200">
-                                <i class="fas fa-check mr-2"></i>Verifikasi Tiket
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
 

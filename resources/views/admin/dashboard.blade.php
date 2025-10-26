@@ -100,15 +100,9 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Pengunjung</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tiket</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Jumlah</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Total</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tanggal</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -126,12 +120,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                        {{ $transaction->status === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $transaction->status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ ucfirst($transaction->status) }}
                                     </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $transaction->created_at->format('H:i') }}
                                 </td>
                             </tr>
                         @empty
@@ -190,4 +181,77 @@
             </div>
         </div>
     </div>
+
+    <!-- Grafik Statistik -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Pendapatan Bulan {{ $currentMonth }}</h3>
+            <canvas id="pendapatanChart" class="w-full h-64"></canvas>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Penjualan Tiket Bulan {{ $currentMonth }}</h3>
+            <canvas id="tiketChart" class="w-full h-64"></canvas>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 col-span-1 lg:col-span-2">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Pengunjung Bulan {{ $currentMonth }}</h3>
+            <canvas id="pengunjungChart" class="w-full h-64"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const bulanLabels = @json($bulanLabels);
+        const pendapatanData = @json($pendapatanData);
+        const tiketData = @json($tiketData);
+        const pengunjungData = @json($pengunjungData);
+
+        // Pendapatan Chart
+        new Chart(document.getElementById('pendapatanChart'), {
+            type: 'line',
+            data: {
+                labels: bulanLabels,
+                datasets: [{
+                    label: 'Pendapatan',
+                    data: pendapatanData,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true
+                }]
+            }
+        });
+
+        // Tiket Chart
+        new Chart(document.getElementById('tiketChart'), {
+            type: 'bar',
+            data: {
+                labels: bulanLabels,
+                datasets: [{
+                    label: 'Tiket Terjual',
+                    data: tiketData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Pengunjung Chart
+        new Chart(document.getElementById('pengunjungChart'), {
+            type: 'line',
+            data: {
+                labels: bulanLabels,
+                datasets: [{
+                    label: 'Pengunjung Baru',
+                    data: pengunjungData,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true
+                }]
+            }
+        });
+    });
+    </script>
 </x-admin-layout>

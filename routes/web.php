@@ -3,18 +3,23 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\StatistikControllerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\UserETicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('layouts.dashboard');
 })->name('dashboard');
+
+Route::get('/', [StatistikController::class, 'index'])->name('dashboard');
 
 // Public Ticket Routes (accessible to all authenticated users)
 Route::middleware('auth')->group(function () {
@@ -41,6 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-tickets', [UserETicketController::class, 'index'])->name('user.etickets.index');
     Route::get('/my-tickets/{eTicket}', [UserETicketController::class, 'show'])->name('user.etickets.show');
     Route::get('/my-tickets/{eTicket}/download', [UserETicketController::class, 'download'])->name('user.etickets.download');
+});
+
+Route::prefix('petugas')->middleware(['auth'])->group(function () {
+    Route::get('/riwayat-penjualan', [PetugasController::class, 'riwayatPenjualan'])
+        ->name('petugas.riwayatPenjualan');
 });
 
 // Auth
@@ -72,6 +82,10 @@ Route::middleware(['auth', 'role:petugas'])->group(function () {
     Route::get('petugas/dashboard', [PetugasController::class, 'index'])->name('petugas.dashboard');
     Route::post('petugas/verifikasi', [PetugasController::class, 'verifikasi'])->name('petugas.verifikasi');
     Route::get('petugas/stats', [PetugasController::class, 'getStats'])->name('petugas.stats');
+    Route::get('petugas/transaksi-offline', [PetugasController::class, 'transaksiOfflineForm'])->name('petugas.transaksi.offline.form');
+    Route::post('petugas/transaksi-offline', [PetugasController::class, 'storeTransaksiOffline'])->name('petugas.transaksi.offline.store');
+    Route::get('petugas/transaksi-offline/success/{code}', [PetugasController::class, 'transaksiOfflineSuccess'])->name('petugas.transaksi.offline.success');
+    Route::get('petugas/penjualan/riwayat', [PetugasController::class, 'riwayatPenjualan'])->name('petugas.penjualan.riwayat');
 });
 
 // Pengunjung
